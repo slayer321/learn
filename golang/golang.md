@@ -23,6 +23,8 @@
 
 - [Operating System and I/O ](https://medium.com/rungo/operating-system-and-i-o-a08684076adb)
 
+- [golangbot](https://golangbot.com/learn-golang-series/) [Highly Recommended]
+
 #### Videos
 
 - [Learn Go Programming](https://www.youtube.com/watch?v=YS4e4q9oBaU&t=21049s)
