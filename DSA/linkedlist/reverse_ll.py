@@ -1,42 +1,28 @@
-# class Node:
-#     def __init__(self, data=None, next=None):
-#         self.data = data
-#         self.next = next
+'''
+Reverse a LL
+'''
 
 
-# class Linkedlist:
-#     def __init__(self):
-#         self.head = None
+def reverseList(self, head: ListNode) -> ListNode:
+    if head is None or head.next is None:
+        return head
+    new_head = self.reverseList(head.next)
+    head.next.next = head
+    head.next = None
+    return new_head
 
-#     def insert_end(self, data):
-#         if self.head is None:
-#             self.head = Node(data, None)
-#             return
 
-#         tmp = self.head
-#         #print("start:", tmp.data, tmp.next)
-#         while (tmp.next):
-#             tmp = tmp.next
-#         #print("end", tmp.data, tmp.next)
-#         tmp.next = Node(data, None)
+class Solution:
+    # Function to reverse a linked list.
+    def reverseList(self, head):
+        # Code here
+        prev = None
 
-#     def print_value(self):
-#         if self.head is None:
-#             print("Linkedlist is empty")
-#             return
+        curr = head
+        while (curr != None):
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
 
-#         itr = self.head
-#         # print(itr.data)
-#         llstr = ''
-#         while (itr):
-#             # print(itr)
-#             llstr += str(itr.data) + '-->'
-#             itr = itr.next
-#         print(llstr)
-
-#     def reverse_ll(self,):
-#         tmp = self.head
-#         count = 0
-#         while tmp:
-#             tmp = tmp.next
-#             if tmp.next == None:
+        return prev
