@@ -32,6 +32,31 @@ class BinarySearchTree:
 
         return elements
 
+    def pre_order(self):
+        elements = []
+
+        elements.append(self.data)
+        if self.left:
+            elements += self.left.pre_order()
+
+        if self.right:
+            elements += self.right.pre_order()
+
+        return elements
+
+    def post_order(self):
+        elements = []
+
+        if self.left:
+            elements += self.left.post_order()
+
+        if self.right:
+            elements += self.right.post_order()
+
+        elements.append(self.data)
+
+        return elements
+
 
 def build_tree(elements):
     root = BinarySearchTree(elements[0])
@@ -44,4 +69,6 @@ def build_tree(elements):
 if __name__ == "__main__":
     numbers = [17, 4, 1, 20, 9, 23, 18, 34]
     numbers_tree = build_tree(numbers)
-    print(numbers_tree.in_order())
+    print("Inorder: ", numbers_tree.in_order())
+    print("Pre_order: ", numbers_tree.pre_order())
+    print("Post_order: ", numbers_tree.post_order())
