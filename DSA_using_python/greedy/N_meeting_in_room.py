@@ -1,11 +1,19 @@
 def maximumMeetings(n, start, end):
     # code here
-    count = 0
-    start.sort()
-    # print(end)
-    for i in range(n-1):
-        if end[i] < start[i+1]:
-            count += 2
+    l = []
+    for i in range(n):
+        l.append([end[i], start[i]])
+    # print(l)
+
+    l.sort(key=lambda i: i[0])
+    # print(l)
+    count = 1
+    e = l[0][0]
+    for i in range(1, n):
+        if l[i][1] > e:
+            count += 1
+            e = l[i][0]
+
     return count
 
 
