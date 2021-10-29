@@ -1,4 +1,3 @@
-from typing import Counter
 
 
 class Node:
@@ -90,15 +89,36 @@ class Linkedlist:
             tmp = tmp.next
             count += 1
 
+    def reversell(self, head):
+        if head is None or head.next is None:
+            return head
+
+        new_head = self.reversell(head.next)
+        head.next.next = head
+        head.next = None
+
+        return new_head
+
+    def util(self):
+        return self.reversell(self.head)
+
 
 if __name__ == "__main__":
     ll = Linkedlist()
-    ll.insert_at_begining(23)
-    ll.insert_at_begining(43)
-    ll.print_value()
-    ll.insert_end(65)
+    # ll.insert_at_begining(23)
+    # ll.insert_at_begining(43)
+    # ll.print_value()
+    # ll.insert_end(65)
+    # ll.insert_end(5)
+    # #ll.insert_value([2, 2])
+    # # ll.remove_index(3)
+    # ll.insert_at(0, 444)
+    ll.insert_end(1)
+    ll.insert_end(2)
+    ll.insert_end(3)
+    ll.insert_end(4)
     ll.insert_end(5)
-    #ll.insert_value([2, 2])
-    # ll.remove_index(3)
-    ll.insert_at(0, 444)
+    ll.insert_end(6)
+    ll.print_value()
+    ll.util()
     ll.print_value()

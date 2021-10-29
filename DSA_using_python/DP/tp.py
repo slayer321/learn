@@ -1,7 +1,14 @@
-def tp(n):
-    if n <= 0:
-        return 0
-    return max(n+tp(n-1), tp(n-2))
+
+def fg(arr):
+    for i in range(1, 10):
+        arr.append(i)
+    return arr
 
 
-print(tp(5))
+def solve():
+    arr = []
+    fg(arr)
+    return arr
+
+
+print(solve())

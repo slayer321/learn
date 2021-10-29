@@ -32,6 +32,19 @@ class BinarySearchTree:
 
         return elements
 
+    def in_order_descending(self):
+        elements = []
+
+        if self.right:
+            elements += self.right.in_order()
+
+        elements.append(self.data)
+
+        if self.left:
+            elements += self.left.in_order()
+
+        return elements
+
     def pre_order(self):
         elements = []
 
@@ -70,5 +83,6 @@ if __name__ == "__main__":
     numbers = [17, 4, 1, 20, 9, 23, 18, 34]
     numbers_tree = build_tree(numbers)
     print("Inorder: ", numbers_tree.in_order())
-    print("Pre_order: ", numbers_tree.pre_order())
-    print("Post_order: ", numbers_tree.post_order())
+    print("Inorder_desc:", numbers_tree.in_order_descending())
+    # print("Pre_order: ", numbers_tree.pre_order())
+    # print("Post_order: ", numbers_tree.post_order())
