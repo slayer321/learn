@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/slayer321/learn/projects/activitytracker1/internal/server"
+	"github.com/slayer321/learn/projects/activitytracker1/pkg/server"
 )
 
 func main() {
