@@ -12,7 +12,7 @@ type httpServer struct {
 }
 
 type IDDocument struct {
-	ID uint64 `json:"id"`
+	ID int `json:"id"`
 }
 
 type ActivityDocument struct {
