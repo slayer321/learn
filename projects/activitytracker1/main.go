@@ -1,8 +1,9 @@
 package main
 
 import (
-	"activitytracker/part1/internal/server"
 	"fmt"
+
+	"github.com/slayer321/learn/projects/activitytracker1/internal/server"
 )
 
 func main() {
