@@ -8,7 +8,79 @@ import (
 )
 
 func main() {
-	processForMutex()
+	//processForMutex()
+	//syncCond()
+	RWMutex()
+}
+
+func RWMutex() {
+	m := map[int]int{}
+
+	mux := &sync.RWMutex{}
+
+	go writeLoop(m, mux)
+	go readLoop(m, mux)
+	// go readLoop(m, mux)
+	// go readLoop(m, mux)
+
+	ch := make(chan struct{})
+	<-ch
+}
+
+func writeLoop(m map[int]int, mux *sync.RWMutex) {
+	for {
+		for i := 0; i < 10; i++ {
+			mux.Lock()
+			m[i] = i
+			mux.Unlock()
+		}
+	}
+}
+
+func readLoop(m map[int]int, mux *sync.RWMutex) {
+	for {
+		mux.RLock()
+		for k, v := range m {
+			fmt.Println(k, "-", v)
+		}
+		mux.RUnlock()
+	}
+}
+
+func syncCond() {
+	var sharedRsc = make(map[string]interface{})
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	m := sync.Mutex{}
+	c := sync.NewCond(&m)
+
+	go func() {
+		c.L.Lock()
+		for len(sharedRsc) == 0 {
+			c.Wait()
+		}
+		fmt.Println(sharedRsc["rsc1"])
+		c.L.Unlock()
+		wg.Done()
+	}()
+
+	go func() {
+		c.L.Lock()
+		for len(sharedRsc) == 0 {
+			c.Wait()
+		}
+		fmt.Println(sharedRsc["rsc2"])
+		c.L.Unlock()
+		wg.Done()
+	}()
+
+	c.L.Lock()
+	sharedRsc["rsc1"] = "foo"
+	sharedRsc["rsc2"] = "bar"
+	c.Broadcast()
+	c.L.Unlock()
+	wg.Wait()
 }
 
 type Bucket struct {
