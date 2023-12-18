@@ -1,15 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/slayer321/casstorage/p2p"
 )
 
 func main() {
-	fmt.Println("Hello world")
-	start := p2p.NewTCPTransport(":12345")
+	opts := p2p.TCPTransportOpts{
+		ListenAddr:    ":3000",
+		HandshakeFunc: p2p.NOPHandshakeFunc,
+		Decoder:       p2p.DefaultDecoder{},
+	}
+	start := p2p.NewTCPTransport(opts)
 	if err := start.ListenAndAccept(); err != nil {
 		log.Fatal(err)
 	}
