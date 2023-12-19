@@ -1,0 +1,9 @@
+version_info: "0"
+resources:
+- "@type": type.googleapis.com/envoy.config.cluster.v3.Cluster
+  name: instance_1
+  connect_timeout: 5s
+  type: EDS
+  eds_cluster_config:
+    eds_config:
+      path: ./eds.yaml

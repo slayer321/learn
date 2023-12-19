@@ -1,0 +1,12 @@
+version_info: "0"
+resources:
+- "@type": type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+  name: route_config_1
+  virtual_hosts:
+  - name: vh
+    domains: ["*"]
+    routes:
+    - match:
+        prefix: "/headers"
+      route:
+        cluster: instance_1

@@ -1,0 +1,88 @@
+{
+ "http_buffered_trace": {
+  "request": {
+   "headers": [
+    {
+     "key": ":authority",
+     "value": "localhost:10000",
+     "raw_value": ""
+    },
+    {
+     "key": ":path",
+     "value": "/error",
+     "raw_value": ""
+    },
+    {
+     "key": ":method",
+     "value": "GET",
+     "raw_value": ""
+    },
+    {
+     "key": ":scheme",
+     "value": "http",
+     "raw_value": ""
+    },
+    {
+     "key": "user-agent",
+     "value": "curl/7.81.0",
+     "raw_value": ""
+    },
+    {
+     "key": "accept",
+     "value": "*/*",
+     "raw_value": ""
+    },
+    {
+     "key": "debug",
+     "value": "true",
+     "raw_value": ""
+    },
+    {
+     "key": "x-forwarded-proto",
+     "value": "http",
+     "raw_value": ""
+    },
+    {
+     "key": "x-request-id",
+     "value": "325bda3f-d80d-423d-8036-4ed45d16f3b7",
+     "raw_value": ""
+    }
+   ],
+   "trailers": []
+  },
+  "response": {
+   "headers": [
+    {
+     "key": ":status",
+     "value": "500",
+     "raw_value": ""
+    },
+    {
+     "key": "content-length",
+     "value": "5",
+     "raw_value": ""
+    },
+    {
+     "key": "content-type",
+     "value": "text/plain",
+     "raw_value": ""
+    },
+    {
+     "key": "date",
+     "value": "Tue, 19 Dec 2023 11:44:18 GMT",
+     "raw_value": ""
+    },
+    {
+     "key": "server",
+     "value": "envoy",
+     "raw_value": ""
+    }
+   ],
+   "body": {
+    "as_string": "error",
+    "truncated": false
+   },
+   "trailers": []
+  }
+ }
+}
