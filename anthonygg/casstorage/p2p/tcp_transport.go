@@ -3,7 +3,6 @@ package p2p
 import (
 	"fmt"
 	"net"
-	"sync"
 )
 
 // TCPPeer represents the remote node over a TCP established connection.
@@ -14,6 +13,11 @@ type TCPPeer struct {
 	// if we dial and retrieve a conn => outboud == true
 	// if we accept and retrieve a conn => outbound == false
 	outbound bool
+}
+
+// Close Implements Peer interface
+func (p *TCPPeer) Close() error {
+	return p.conn.Close()
 }
 
 func NewTCPPeer(conn net.Conn, outbound bool) *TCPPeer {
@@ -27,25 +31,31 @@ type TCPTransportOpts struct {
 	ListenAddr    string
 	HandshakeFunc HandshakeFunc
 	Decoder       Decoder
+	OnPeer        func(Peer) error
 }
 
 type TCPTransport struct {
 	TCPTransportOpts
 	listener net.Listener
+	rpcch    chan RPC
 
-	mu    sync.RWMutex
-	peers map[net.Addr]Peer
+	// mu    sync.RWMutex
+	// peers map[net.Addr]Peer
 }
 
 func NewTCPTransport(ops TCPTransportOpts) *TCPTransport {
 	return &TCPTransport{
 		TCPTransportOpts: ops,
+		rpcch:            make(chan RPC),
 	}
+}
+
+func (t *TCPTransport) Consume() <-chan RPC {
+	return t.rpcch
 }
 
 func (t *TCPTransport) ListenAndAccept() error {
 	var err error
-
 	t.listener, err = net.Listen("tcp", t.ListenAddr)
 	if err != nil {
 		fmt.Printf("getting error: %s", err)
@@ -67,24 +77,34 @@ func (t *TCPTransport) startAcceptLoop() {
 	}
 }
 
-type Temp struct{}
-
 func (t *TCPTransport) handleConn(conn net.Conn) {
-	peer := NewTCPPeer(conn, true)
-	if err := t.HandshakeFunc(peer); err != nil {
+	var err error
+	defer func() {
+		fmt.Printf("dropping peer connection: %s", err)
 		conn.Close()
-		fmt.Printf("TCP handshake error %s\n", err)
+	}()
+
+	peer := NewTCPPeer(conn, true)
+	if err = t.HandshakeFunc(peer); err != nil {
 		return
 	}
 
-	msg := &Message{}
+	if t.OnPeer != nil {
+		if err = t.OnPeer(peer); err != nil {
+			return
+		}
+	}
+
+	msg := RPC{}
 	for {
-		if err := t.Decoder.Decode(conn, msg); err != nil {
+		if err := t.Decoder.Decode(conn, &msg); err != nil {
 			fmt.Printf("TCP error %s\n", err)
-			continue
+			return
 		}
 		msg.From = conn.RemoteAddr()
-		fmt.Printf("message : %v\n", msg)
+
+		t.rpcch <- msg
+
 	}
 
 }
