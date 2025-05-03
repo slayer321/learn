@@ -31,18 +31,31 @@ func (h *intHeap) Pop() any {
 	return lastVal
 }
 
+func k_smallest_element(arr []int, k int) int {
+
+	max_heap := &intHeap{}
+	// heap.Init(max_heap)
+	for _, val := range arr {
+
+		heap.Push(max_heap, val)
+
+		if len(*max_heap) > k {
+			heap.Pop(max_heap)
+		}
+	}
+
+	old := *max_heap
+
+	return old[0]
+
+}
+
 func main() {
 
-	nums := &intHeap{3, 1, 4, 5, 1, 1, 2, 6}
+	arr := []int{7, 10, 4, 3, 20, 15}
+	k := 3
 
-	heap.Init(nums)
-	fmt.Printf("nums: %v\n", nums)
-
-	heap.Push(nums, 20)
-	fmt.Printf("nums: %v\n", nums)
-
-	gg := heap.Pop(nums)
-	fmt.Printf("gg: %v\n", gg)
-	fmt.Printf("nums: %v\n", nums)
+	out := k_smallest_element(arr, k)
+	fmt.Printf("out: %v\n", out)
 
 }
